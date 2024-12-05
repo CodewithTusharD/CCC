@@ -19,7 +19,6 @@ app.get("/",function(req,resp)
 app.use(express.urlencoded(true));
 
 var CCC={
-
     host:"127.0.0.7",
     user:"root",
     password:"Bhavish@2010",
