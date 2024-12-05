@@ -1,0 +1,545 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Home Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body
+        {
+            background-color: bisque;
+        }
+        .vertical-line 
+        {
+          width: 2px; /* Set the width of the line */
+          height: 270px; /* Set the height of the line */
+          background-color: brown; /* Set the color of the line */
+        }
+        .cards
+        {
+            display: flexbox;
+            flex-direction: row;
+            justify-content: space-around;
+        }
+        /* Flexbox for responsive layout */
+.cards-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: nowrap;
+    padding: 15px;
+}
+
+/* Card styles */
+.card {
+    width: 18rem;
+    margin: 10px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transform and glow effect */
+    border: 1px solid #ddd;
+    border-radius: 10px;
+}
+
+/* Hover effect on card (grow + glow) */
+.card:hover {
+    transform: scale(1.1); /* Slowly rise in size */
+    box-shadow: 0 7px 20px rgba(0, 0, 0, 0.3); /* Glow effect */
+}
+
+/* Card image styling */
+.card img {
+    border-radius: 50%;
+    height: 150px;
+    width: 150px;
+    margin-top: 20px;
+    margin-bottom: 5px;
+}
+
+/* Button styles */
+.card a.btn, .card button.btn {
+    transition: transform 0.2s ease; /* Spongy effect when clicked */
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 5px;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+/* Sponge effect on button click */
+.card a.btn:active, .card button.btn:active {
+    transform: scale(0.95); /* Compress the button slightly */
+}
+
+/* Button hover color */
+.card a.btn:hover, .card button.btn:hover {
+    background-color: #0056b3; /* Slightly darker on hover */
+}
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>  
+
+    <script>
+
+      $(document).ready(function()
+      {
+       // doSearch();// calling 
+
+        $("#exampleInputEmail1").blur(function()
+        {
+            var emailKu= $(this).val();
+            var obj={
+              type:"get",
+              url:"/chk-email",
+              data:{
+                kuchEmail:emailKu
+              }
+            }
+
+            $.ajax(obj).done(function(respKuch){
+                //alert(respKuch);
+                $("#res").html(respKuch);
+            }).fail(function(errKuch){
+              //alert(errKuch);
+              $("#res").html(respKuch);
+            })
+        });
+
+        //===================================================
+        //--------------       Login         ----------------
+        //===================================================
+        $("#dologin").click(function(){
+          var emailL=$("#emailL").val();
+          var passwordL=$("#pwdL").val();
+          var objL={
+            type:"get",
+            url:"/loginuser",
+            data:{
+              kuchEmailL:emailL,
+              kuchpwdL:passwordL
+            }
+          }
+    
+          $.ajax(objL).done(function(resp)
+          {
+           
+            localStorage.setItem("activeKuch",$("#emailL").val());
+
+            if(resp=="Donar"){
+              location.href="dash-donor.html";
+              alert("Welcome to CommunityCare Connect – A Platform for Life-Changing Donations!😊");
+            }
+            else
+            if(resp=="Recipient"){
+              location.href="dash-recipient.html";
+              alert("Welcome to CommunityCare Connect – Your Resource for Life-Saving Medications😊");
+            }
+            else
+            if(resp=="Admin Aya hai"){
+              location.href="Admin_interface.html";
+              alert("Welcome Admin 😊");
+            }
+
+              else
+            alert(resp);
+
+          }).fail(function(err){
+            $("#log").html(err); 
+          })
+        });
+        //===================================================
+        //--------------       Sign up         ----------------
+        //===================================================
+        $("#submitBtn").click(function() {
+  var AccEmail = $("#exampleInputEmail1").val();
+  var Password = $("#exampleInputPassword1").val();
+  var Mem_type = $("#UserType").val();
+
+  var obj_s = {
+    url: "/Signup-kro",
+    type: "get",
+    data: {
+      email: AccEmail,   // Corrected key to 'email'
+      password: Password,
+      MemType: Mem_type
+    }
+  };
+
+  $.ajax(obj_s)
+    .done(function(resp) {
+      $("#submit").html(resp);
+    })
+    .fail(function(err) {
+      alert(err);
+      $("#submit").html("There might be an error in the sign-up process:", err);
+      $("#submit").css("color", "red");
+    });
+});
+
+
+
+      });
+
+    </script>
+
+  </head>
+  <body>
+    <div class="container" style="width: 1400px;"></div>
+   
+      <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+          <img src="MyPics/istockphoto-952033838-612x612.jpg" height="30px" width="30px" style="border-radius: 50%; border-style: groove; border-color: brown;" alt="">
+          <a class="navbar-brand" style="font-family: cursive; color: rgb(69, 21, 21);" href="#"><i>CommunityCare Connect</i></a>
+          
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" style="font-size: large;" aria-current="page" href="#">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" style="font-size: large;" aria-current="page" href="#Os">Our Services</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" style="font-size: large;" aria-current="page" href="#Au">About us</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" style="font-size: large;" aria-current="page" href="#Cu">Contact</a>
+              </li>
+            </ul>
+      
+            <div class="d-flex">
+              <button type="button" class="btn btn-primary btn-sm me-2" style="background-color: chocolate; border-color: brown;" data-bs-toggle="modal" data-bs-target="#staticBackdrop1">Sign-up</button>
+              <button type="button" class="btn btn-primary btn-sm" style="background-color: chocolate; border-color: brown;" data-bs-toggle="modal" data-bs-target="#staticBackdrop2">Login</button>
+            </div>
+          </div>
+        </div>
+      </nav>
+      
+      
+
+  <!-- Sign-up Modal -->
+    <div class="modal fade" id="staticBackdrop1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel"><b>Sign up</b>
+          <span id="submit" style="color: rgb(0, 170, 0);"></span></h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+            <form method="post"  enctype="multipart/form-data">  <!--// Badlaav aya hai is line me (get->post)  enctype is for file uploading-->
+                <div class="mb-3" style="width: 300px;">
+                  <label for="exampleInputEmail1" class="form-label">Email address:</label>
+                  <span id="res" style="color: red;">*</span>
+                  <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="EmailTxt" required>
+                  <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                </div>
+                <div class="mb-3" style="width: 300px;">
+                    <label for="exampleInputPassword1" class="form-label">Password:</label>
+                    <input type="password" class="form-control" id="exampleInputPassword1" name="PwdTxt" required>
+                </div>
+                <div class="mb-3" style="width: 300px;">
+                    <label for="UserType" class="form-label">Member Type:</label>
+                    <select class="form-select form-select-sm" id="UserType" name="UserType" aria-label=".form-select-sm example">
+                        <option selected>Open this select menu</option>
+                        <option value="Donar"><b>Donar</b></option>
+                        <option value="Recipient"><b>Recipient</b></option>
+                      </select>
+                </div>
+            
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <input type="button" class="btn btn-primary" value="Sign-up" id="submitBtn">
+        </div>
+      
+      </div>
+    </div>
+  </div>
+
+  <!--Login Modal -->
+  <div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+    <div class="modal-content">
+    <div class="modal-header">
+      <h1 class="modal-title fs-5" id="staticBackdropLabel">Login</h1>
+      <span id="log">*</span>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <form method="post" action="signup-process-secure" enctype="multipart/form-data"><!--Badlaav aya hai is line me (get->post)  enctype is for file uploading-->
+            <div class="mb-3" style="width: 300px;">
+              <label for="exampleInputEmail1" class="form-label">Email address:</label>
+              <input type="email" class="form-control" id="emailL" aria-describedby="emailHelp" name="EmailTxt" required>
+              <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+            </div>
+            <div class="mb-3" style="width: 300px;">
+                <label for="exampleInputPassword1" class="form-label">Password:</label>
+                <input type="password" class="form-control" id="pwdL" name="PwdTxt" required>
+            </div>
+        
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      <button type="button" id="dologin" class="btn btn-primary">Login</button>
+    </div>
+  </form>
+  </div>
+</div>
+</div>
+
+
+  <div id="carouselExampleFade" class="carousel slide carousel-fade">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="MyPics/Donate banner2.jpg"  style="height: 500px; width: 800px; " class="d-block w-100" alt="...">
+      </div>
+      <div class="carousel-item">
+        <img src="MyPics/donation-banner.jpg" style="height: 500px; width: 800px; "  class="d-block w-100" alt="...">
+      </div>
+      <div class="carousel-item">
+        <img src="MyPics/medical-service-donation-man-hand-holding-box-full-medical-equipment-s-charity-concept_530733-1002.avif" style="height: 500px; width: 800px;"  class="d-block w-100" alt="...">
+      </div> 
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+
+  <div id="Os" style="display: flex; justify-content: center; padding-top: 5px; background-color: azure; height: 50px;  color: brown; font-family: cursive;">
+    <h2>Our Services</h2>
+    </div>
+    <div class="cards-container" style="display: flex; justify-content: center; gap: 20px; padding-top: 20px; padding-bottom: 20px;">
+      <div class="card" style="width: 18rem;">
+        <center>
+          <br>
+        <img src="MyPics/different-nationalities-gf69c8eb4e_1280.png"  style=" background-color:bisque  ; height:150px ; width: 225px;" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title" style=" color: brown; font-family: cursive;">Donation</h5>
+          <p class="card-text">When you donate medicines, you extend a helping hand to those facing dire health challenges. Your benevolence can ensure that deserving individuals do not have to choose between their health and basic necessities. By sharing what you can spare, you pave the way for a big change</p>
+         
+          <details>
+            <summary>Guidelines for Medication Donations:</summary>
+            <ol>
+              <li>Check Expiration Dates: Ensure that the medicines you donate are not expired, as expired medications may be ineffective or even harmful.</li>
+              <li>Follow Legal and Ethical Guidelines: Comply with local laws and regulations regarding medication donations. Some countries have strict rules to ensure the safety and efficacy of donated medicines.</li>
+              <li>Preserve Proper Packaging: Keep the medicines in their original packaging to maintain their integrity and ensure proper identification.</li>
+              <li>Donate Only Needed Medications: Focus on donating essential medicines that have a high demand and are suitable for the needs of the recipients.</li>
+            </ol>
+            
+        </details>
+        </div>
+        </center>
+      </div>
+      <div class="card" style="width: 18rem;">
+        <center>
+          <br>
+        <img src="MyPics/helpaneedy-banner.png"  style=" background-color:beige; height:150px ; width:225px;" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title" style=" color: brown; font-family: cursive;">Needy</h5>
+          <p class="card-text">At CommunityCare Connect, we firmly believe that no one should be left behind due to financial constraints or limited resources. Our mission is to empower the needy by connecting them with vital medicines that can improve their well-being and transform their lives.</p>
+          <details>
+            <summary>How to Get Started:</summary>
+            <ol>
+              <li>Create an Account: Needy individuals can sign up on our website, providing basic information for verification purposes and to understand their specific medical requirements.</li>
+              <li>Browse Available Medicines: Once registered, users can access a wide range of available medicines, along with detailed information about each medication.</li>
+              <li>Get Donars Information: Needy users can get in touch with the donars for the medications they need. Our team verifies the profile of each donar to ensure fairness.</li>
+              
+            </ol>
+            
+        </details>
+        </div>
+        </center>
+      </div>
+      <div class="card" style="width: 18rem;">
+        <center>
+          <br>
+        <img src="MyPics/medical-service-donation-man-hand-holding-box-full-medical-equipment-s-charity-concept_530733-1002.avif"  style=" background-color: bisque; height:150px ; width: fit-content;"  class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title" style=" color: brown; font-family: cursive;">Non Profitable</h5>
+          <p class="card-text">Welcome to our non-profit website. At CommunityCare Connect, we have an aim to make a positive impact on the lives of the needy. Through our dedicated efforts, ensuring that health and well-being are not compromised by financial constraints.</p>
+          
+          
+        
+        </div>
+        </center>
+      </div>
+      <div class="card" style="width: 18rem;">
+        <center>
+          <br>
+        <img src="MyPics/conditions-g6c2dbd245_1280.jpg" style="height:150px ; width: fit-content;"  class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title" style=" color: brown; font-family: cursive;">Terms & Condition</h5>
+          <p class="card-text">
+            Welcome to our non-profit website. By accessing and using this platform, you agree to comply with the following terms and conditions. If you do not agree with any of these terms, please refrain from using our website.</p>
+            <br>
+          <details>
+            <summary>GET MORE DETAILS</summary>
+            <ol>
+              <li>
+                Eligibility:
+                <ul>
+                  <li>You must be at least 18 years old or of legal age in your jurisdiction to use our website.</li>
+                  <li>If you are accessing our website on behalf of an organization or entity, you must have the authority to bind that organization or entity to these terms.</li>
+                </ul>
+              </li>
+              <li>
+                Non-Profit Nature:
+                <ul>
+                  <li>Our website is a non-profit initiative aimed at connecting the needy with vital medicines.</li>
+                  <li>Any donations made to our organization are non-refundable and will be used for the sole purpose of supporting our mission and activities.</li>
+                </ul>
+              </li>
+              <li>
+                Intellectual Property:
+                <ul>
+                  <li>All content, logos, designs, and graphics on our website are the property of CommunityCare Connect and are protected by intellectual property laws.</li>
+                  <li>You may not use, reproduce, distribute, or modify any content from our website without our explicit written consent.</li>
+                </ul>
+              </li>
+              
+              <li>
+                Medicine Donations:
+                <ul>
+                  <li>If you choose to donate medicines through our website, you confirm that the medications are unexpired, eligible for donation, and not prohibited by any applicable laws or regulations.</li>
+                  <li>We reserve the right to reject any donated medicines that do not meet the required safety and eligibility criteria.</li>
+                </ul>
+              </li>
+              <li>
+                Limitation of Liability:
+                <ul>
+                  <li>We strive to ensure the accuracy and reliability of information on our website but do not guarantee its completeness or timeliness.</li>
+                  <li>We shall not be liable for any direct, indirect, or consequential damages arising from your use of our website.</li>
+                </ul>
+              </li>
+              <li>
+                Modification of Terms:
+                <ul>
+                  <li>We reserve the right to modify these terms and conditions at any time without prior notice.</li>
+                  <li>Any changes will be effective immediately upon posting on our website.</li>
+                </ul>
+              </li>
+            </ol>
+          </details>
+        </div>
+        </center>
+      </div>
+    </div>
+    <div id="Au" style="display: flex; justify-content: center; padding-top: 5px; background-color: azure; height: 50px;  color: brown; font-family: cursive;">
+      <h2>Developed By</h2>
+      </div>
+      <br><br>
+      <div style="display: flex; justify-content: space-evenly;">
+        
+          <div class="card" style="display: flex; flex-direction: row; width: 35rem; height: 270px;">
+           
+              
+            <div style="margin: 20px 10px 10px 20px;"><img src="MyPics/My image.jpg" style=" height: 200px; width: 160px;" class="card-img-top" alt="..."></div>
+          
+            <div class="card-body">
+              <h5 class="card-title" style=" color: brown; font-family: cursive;">Developed By:</h5>
+              
+              <div>
+                <span style="color: rgb(127, 70, 70);"><b>Developed by:</b></span>
+                Tushar Dhingra
+              </div>
+              <div>
+                <span style="color: rgb(127, 70, 70);"><b>College:</b></span>
+                Thapar Institute of Engineering & Technology (TIET)
+              </div>
+              <div>
+                <span style="color: rgb(127, 70, 70);"><b>Email:</b></span>
+                tushardhingra314@gmail.com
+              </div>
+              <div>
+                <span style="color: rgb(127, 70, 70);"><b>City:</b></span>
+                Patiala
+              </div>
+              <div>
+                <span style="color: rgb(127, 70, 70);"><b>Contact:</b></span>
+                (91)-83603-76307
+              </div>
+              
+            </div>
+          </div>
+
+          <div class="vertical-line"></div>
+
+          <div class="card" style=" display: flex; flex-direction: row; width: 35rem; height: 270px; ">
+            <div style="margin: 20px 10px 10px 20px;"><img src="MyPics/sir_image.png" style="height: 200px; width: 160px;" class="card-img-top" alt="..."></div>
+            <div class="card-body">
+              <h5 class="card-title" style=" color: brown; font-family: cursive;">Under The Guidence Of:</h5>
+              <div>
+                <span style="color: rgb(127, 70, 70);"><b> Author of REAL JAVA:</b></span>
+                Rajesh Bansal
+              </div>
+              <div>
+                <span style="color: rgb(127, 70, 70);"><b> Institute:</b></span>
+                Banglore Computer Education
+              </div>
+              <div>
+                <span style="color: rgb(127, 70, 70);"><b> City:</b></span>
+                Bathinda
+              </div>
+              <div>
+                <span style="color: rgb(127, 70, 70);"><b> Contact:</b></span>
+                (91)-98722-46056
+              </div>
+              <div>
+                <span style="color: rgb(127, 70, 70);"><b>Website:</b></span>
+                <a href="https://www.realjavaonline.com/" target="_blank">realjavaonline.com</a>
+              </div>
+              <div>
+                <span style="color: rgb(127, 70, 70);"><b>More Details:</b></span>
+                <a href="https://indiapl.com/punjab/banglore-computer-education-449196" target="_blank">Get More Information</a>
+              </div>
+            </div>
+          </div>
+          
+
+        </div>
+        <br><br>
+        <div id="Cu" style="display: flex; justify-content: center; padding-top: 5px; background-color: azure; height: 50px;  color: brown; font-family: cursive;">
+          <h2>Reach Us</h2>
+          </div>
+          <br><br>
+          <div style="display: flex; justify-content: space-evenly;">
+          <div style="margin-left: 30px; width: 35rem;">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3442.7327003464693!2d76.38718357426583!3d30.358545703622806!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3910289f2041981b%3A0xa7c853b6a67d3df!2sDhingra%20Collections!5e0!3m2!1sen!2sin!4v1689937372590!5m2!1sen!2sin" width="350px" height="350px" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+
+          <div class="vertical-line" style="margin-left: 0px; height: 350px; "></div>
+
+          <div style="display: flex; flex-direction: column; width: 35rem;">
+           <h5 style="color: brown;"> Connect us through Social Media:</h5>
+           <br>
+           <div style="font-size: larger;">
+            <span style="color: rgb(127, 70, 70);"><b><i class="fa-brands fa-square-instagram" style="color: #4a576d"></i></b></span>
+            <a href="https://instagram.com/_tushar_dhingra.007?igshid=ZDc4ODBmNjlmNQ==" target="_blank" style="color: #546177; text-decoration: none;">_tushar_dhingra.007</a>
+          </div>
+          <div style="font-size: larger;">
+            <span style="color: rgb(127, 70, 70);"><b><i class="fa-brands fa-linkedin" style="color: #4a576d;"></i></b></span>
+            <a href="https://www.linkedin.com/in/tushar-dhingra-9b8b48230" target="_blank" style="color: #546177; text-decoration: none;">Tushar Dhingra</a>
+          </div>
+          <div style="font-size: larger;">
+            <span style="color: rgb(127, 70, 70);"><b><i class="fa-brands fa-square-snapchat" style="color: #4a576d;"></i></b></span>
+            <a href="https://www.snapchat.com/add/tu.shard567?share_id=AfkDT0PKrKQ&locale=en-GB" target="_blank" style="color: #546177; text-decoration: none;">tu.shard567</a>
+          </div>
+            
+          </div>
+          
+          </div><br><br>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+  </body>
+</html>

@@ -5,7 +5,7 @@ var app=express();
 
 app.listen(2099,function()
 {
-    console.log("Server has started...!!");
+    console.log("Server has started on PORT: 2099.");
 })
 
 app.use(express.static("public"));
@@ -178,19 +178,19 @@ app.get("/profile",function(req,resp)
 })
 app.use(express.urlencoded({ extended: true }));
 
-var setProfile= mysql.createConnection(CCC);
-//var dbCon2=mysql.createConnection(dbConfig);
- setProfile.connect(function(jasoos2)
- {
-    if(jasoos2==null)
-    {
-        console.log("CONNECTION READY TO PROFILE SETTINGS!");
-    }
-    else
-    {
-        console.log(jasoos2);
-    }
- })
+// var setProfile= mysql.createConnection(CCC);
+// //var dbCon2=mysql.createConnection(dbConfig);
+//  setProfile.connect(function(jasoos2)
+//  {
+//     if(jasoos2==null)
+//     {
+//         console.log("CONNECTION READY TO PROFILE SETTINGS!");
+//     }
+//     else
+//     {
+//         console.log(jasoos2);
+//     }
+//  })
  //--------------------------------------------------
  //                   details saved
 app.post("/profile-Sign-up-process",function(req,resp)
@@ -217,7 +217,7 @@ app.post("/profile-Sign-up-process",function(req,resp)
 
     
 
-    setProfile.query("insert into prof_donar(email,name,Contact,Address,City,ID,ID_proof,Availhrs) values(?,?,?,?,?,?,?,?)",[email,name,Contact,Address,city,id,fileName2,availhrs],function(err)
+    Signin.query("insert into prof_donar(email,name,Contact,Address,City,ID,ID_proof,Availhrs) values(?,?,?,?,?,?,?,?)",[email,name,Contact,Address,city,id,fileName2,availhrs],function(err)
     {
         if(err==null)
         {
@@ -233,7 +233,7 @@ app.post("/profile-Sign-up-process",function(req,resp)
  //-----------------------------------------------------------------------
  //                SEARCH 
  app.get("/do-search",function(req,resp){
-    setProfile.query("select * from prof_donar where email=?",[req.query.kuchEmail],function(err,resultTableJSON){
+    Signin.query("select * from prof_donar where email=?",[req.query.kuchEmail],function(err,resultTableJSON){
       if(err==null)
       resp.send(resultTableJSON);
       else
@@ -248,7 +248,7 @@ app.post("/profile-Sign-up-process",function(req,resp)
     var email=req.body.ProEmail;
 
     //fixed
-    setProfile.query("delete from prof_donar where email=?",[email],function(err,result)
+    Signin.query("delete from prof_donar where email=?",[email],function(err,result)
     {
         if(err==null)
         {
@@ -286,7 +286,7 @@ app.post("/profile-Sign-up-process",function(req,resp)
     var availhrs = req.body.timing1 + " to " + req.body.timing2;
 
     //fixed
-    setProfile.query("update prof_donar set name=?, Contact=?, Address=?, City=?, ID=?, ID_proof=?, Availhrs=? where email=?",[name, Contact, Address, city, id, fileName2,availhrs,email],function(err,result)
+    Signin.query("update prof_donar set name=?, Contact=?, Address=?, City=?, ID=?, ID_proof=?, Availhrs=? where email=?",[name, Contact, Address, city, id, fileName2,availhrs,email],function(err,result)
     {
         if(err==null)
         {
@@ -310,16 +310,16 @@ app.post("/profile-Sign-up-process",function(req,resp)
 })
 app.use(express.urlencoded({ extended: true }));
 
- var Availmeds=mysql.createConnection(CCC);
- Availmeds.connect(function(jasoos3){
-    if(jasoos3==null)
-    {
-        //console.log(alert("All CLear."));
-        console.log("CONNECTTED medicine wala SUCCESFULLY.");
-    }
-    else
-    console.log(jasoos3);
- })
+//  var Availmeds=mysql.createConnection(CCC);
+//  Availmeds.connect(function(jasoos3){
+//     if(jasoos3==null)
+//     {
+//         //console.log(alert("All CLear."));
+//         console.log("CONNECTTED medicine wala SUCCESFULLY.");
+//     }
+//     else
+//     console.log(jasoos3);
+//  })
  
  app.get("/insert-data", function(req, resp) 
  {
@@ -328,7 +328,7 @@ app.use(express.urlencoded({ extended: true }));
 
     
 
-    Availmeds.query("INSERT INTO Med_details (serial_no, email, Med_name, Exp_date, Packaging, Quantity) VALUES (?, ?, ?, ?, ?, ?)",[0, req.query.email_val, req.query.Med_name_val, req.query.Exp_dt_val, req.query.pack_type_val, req.query.qty_val],
+    Signin.query("INSERT INTO Med_details (serial_no, email, Med_name, Exp_date, Packaging, Quantity) VALUES (?, ?, ?, ?, ?, ?)",[0, req.query.email_val, req.query.Med_name_val, req.query.Exp_dt_val, req.query.pack_type_val, req.query.qty_val],
         function(err) 
     {
             if(err==null)
@@ -366,19 +366,19 @@ app.get("/profile2",function(req,resp)
 })
 app.use(express.urlencoded({ extended: true }));
 
-var setProfile= mysql.createConnection(CCC);
-//var dbCon2=mysql.createConnection(dbConfig);
- setProfile.connect(function(jasoos2)
- {
-    if(jasoos2==null)
-    {
-        console.log("CONNECTION READY TO PROFILE SETTINGS OF RECIPIENT!");
-    }
-    else
-    {
-        console.log(jasoos2);
-    }
- })
+// var setProfile= mysql.createConnection(CCC);
+// //var dbCon2=mysql.createConnection(dbConfig);
+//  setProfile.connect(function(jasoos2)
+//  {
+//     if(jasoos2==null)
+//     {
+//         console.log("CONNECTION READY TO PROFILE SETTINGS OF RECIPIENT!");
+//     }
+//     else
+//     {
+//         console.log(jasoos2);
+//     }
+//  })
 app.post("/profile-needy-process",function(req,resp)
  {
     //-------file uploading-------
@@ -406,7 +406,7 @@ app.post("/profile-needy-process",function(req,resp)
 
     
 
-    setProfile.query("insert into prof_needy(email,name,Contact,Address,City,ID_proof,DOB,Gender) values(?,?,?,?,?,?,?,?)",[email,name,Contact,Address,city,fileName2,dob,gender],function(err)
+    Signin.query("insert into prof_needy(email,name,Contact,Address,City,ID_proof,DOB,Gender) values(?,?,?,?,?,?,?,?)",[email,name,Contact,Address,city,fileName2,dob,gender],function(err)
     {
         if(err==null)
         {
@@ -422,7 +422,7 @@ app.post("/profile-needy-process",function(req,resp)
  //--------------------------------------------------------
  //                   SEARCH
  app.get("/do-search-needy",function(req,resp){
-    setProfile.query("select * from prof_needy where email=?",[req.query.kuchEmail],function(err,resultTableJSON){
+    Signin.query("select * from prof_needy where email=?",[req.query.kuchEmail],function(err,resultTableJSON){
       if(err==null)
       resp.send(resultTableJSON);
       else
@@ -459,7 +459,7 @@ app.post("/profile-needy-process",function(req,resp)
 
 //----------------------     -------------------  NEEDY UPDATE   --------------------     ------------------------
 
-    setProfile.query("update prof_needy set name=?,Contact= ?,Address= ?,City=?,ID_proof=?,DOB=?,Gender=? where email=? ",[name,Contact,Address,city,fileName2,dob,gender,email],function(err,result)
+    Signin.query("update prof_needy set name=?,Contact= ?,Address= ?,City=?,ID_proof=?,DOB=?,Gender=? where email=? ",[name,Contact,Address,city,fileName2,dob,gender,email],function(err,result)
     {
         if(err==null)
         {
@@ -476,7 +476,7 @@ app.post("/profile-needy-process",function(req,resp)
 {
 
     var r=/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
-    setProfile.query("select * from prof_needy where email=?",[req.query.kuchEmail],function(err,resultTable)
+    Signin.query("select * from prof_needy where email=?",[req.query.kuchEmail],function(err,resultTable)
     {
         if(err==null)
         {
@@ -558,7 +558,7 @@ app.get("/get-json-record",function(req,resp)
     var email=req.query.emailkuch;
 
     //fixed
-    setProfile.query("delete from accounts where email=?",[email],function(err,result)
+    Signin.query("delete from accounts where email=?",[email],function(err,result)
     {
         if(err==null)
         {
@@ -578,7 +578,7 @@ app.get("/get-json-record",function(req,resp)
      var email=req.query.emailkuch;
  
      //fixed
-     setProfile.query("update accounts set Ustatus=? where email=?",[0,email],function(err,result)
+     Signin.query("update accounts set Ustatus=? where email=?",[0,email],function(err,result)
      {
          if(err==null)
          {
@@ -598,7 +598,7 @@ app.get("/get-json-record",function(req,resp)
        var email=req.query.emailkuch;
    
        //fixed
-       setProfile.query("update accounts set Ustatus=? where email=?",[1,email],function(err,result)
+       Signin.query("update accounts set Ustatus=? where email=?",[1,email],function(err,result)
        {
            if(err==null)
            {
@@ -649,7 +649,7 @@ app.get("/get-json-record",function(req,resp)
     {
   
         var Demail=req.query.email;
-        Availmeds.query("select serial_no,Med_name,Exp_date,Packaging,Quantity from Med_details where email=?",[Demail],function(err,resultTableJSON)
+        Signin.query("select serial_no,Med_name,Exp_date,Packaging,Quantity from Med_details where email=?",[Demail],function(err,resultTableJSON)
           {
               if(err==null)
                   resp.send(resultTableJSON);
@@ -663,7 +663,7 @@ app.get("/get-json-record",function(req,resp)
 app.post("/do-angular-med-delete", function (req, resp) {
     var SrNo = req.query.num; // Access the data from the request body
   
-    Availmeds.query("delete from Med_details where serial_no=?", [SrNo], function (err, result) {
+    Signin.query("delete from Med_details where serial_no=?", [SrNo], function (err, result) {
       if (err == null) {
         if (result.affectedRows == 1)
           resp.send("Data Removed Successfully!");
@@ -680,7 +680,7 @@ app.post("/do-angular-med-delete", function (req, resp) {
 //======================================MED FINDER======================================================
   app.get("/fetch-city",function(req,resp)
   {
-     Availmeds.query("select distinct City from prof_donar",function(err,resultTable)
+    Signin.query("select distinct City from prof_donar",function(err,resultTable)
      {
          if(err==null)
              resp.send(resultTable);
@@ -691,7 +691,7 @@ app.post("/do-angular-med-delete", function (req, resp) {
 
  app.get("/fetch-med",function(req,resp)
  {
-    Availmeds.query("select distinct Med_name from Med_details",function(err,resultTable)
+    Signin.query("select distinct Med_name from Med_details",function(err,resultTable)
     {
         if(err==null)
             resp.send(resultTable);
@@ -705,7 +705,7 @@ app.post("/do-angular-med-delete", function (req, resp) {
     var med=req.query.medKuch;
     var city=req.query.cityKuch;
     var query="select prof_donar.name,prof_donar.email,prof_donar.Address,prof_donar.City,prof_donar.Contact,prof_donar.ID,prof_donar.ID_proof,prof_donar.Availhrs,Med_details.Med_name from prof_donar inner join Med_details on prof_donar.email=Med_details.email where Med_details.Med_name=? and prof_donar.City=?";
-    Availmeds.query(query,[med,city],function(err,resultTable)
+    Signin.query(query,[med,city],function(err,resultTable)
     {
         if(err==null)
         {
